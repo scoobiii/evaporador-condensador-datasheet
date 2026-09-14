@@ -1,0 +1,7 @@
+*.md text eol=lf
+*.mmd text eol=lf
+*.csv text eol=lf
+*.webp binary
+*.jpg binary
+*.jpeg binary
+*.png binary

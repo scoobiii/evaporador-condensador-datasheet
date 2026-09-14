@@ -1,0 +1,20 @@
+# Temporários
+.DS_Store
+Thumbs.db
+*.tmp
+*.bak
+*.swp
+
+# Saídas locais
+__pycache__/
+*.pyc
+.env
+.env.*
+
+# Logs e caches
+*.log
+.cache/
+
+# Dados de credenciais
+secrets/
+credentials/

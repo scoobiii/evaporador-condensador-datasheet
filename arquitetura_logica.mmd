@@ -1,0 +1,58 @@
+flowchart LR
+  subgraph CAMPO[Unidade evaporadora e condensadora]
+    TAMB[Sensor temperatura ambiente]
+    TEVA[Sensor temperatura evaporador]
+    TCOND[Sensor temperatura condensador / descarga]
+    TPRESS[Pressostato ou transdutor de pressão\nse existente]
+    FAN[F1 ventilador evaporador]
+    FC[F2 ventilador condensador]
+    COMP[Compressor / inversor]
+    VALV[Válvula de expansão ou solenóide]
+    PROT[Proteções originais\ntermistor, sobrecorrente, alta/baixa pressão]
+  end
+
+  subgraph CONTROLE[Eletrônica original]
+    DISP[Placa display / receptor IR]
+    MCU[MCU principal da unidade interna]
+    PWR[Placa de potência / relés / IPM\na confirmar na inspeção]
+    BUS[Comunicação interna\nentre evaporadora e condensadora]
+    WIFI[Módulo Wi-Fi EU-SK105\nAnatel 071398-21-05648]
+  end
+
+  subgraph GATEWAY[Telemetria de manutenção]
+    ISO[Interface isolada de leitura\nsem injeção de comando]
+    EDGE[Gateway Wi-Fi local\nMQTT sobre TLS]
+    DB[Histórico operacional\nTSDB ou SQLite]
+    DASH[Dashboard usuário\nsetpoint, modo, temperatura]
+    MAINT[Dashboard manutenção\nfalhas, correntes, pressões, eventos]
+    ALERT[Alertas\nlimites, tendência e perda de comunicação]
+  end
+
+  TAMB --> MCU
+  TEVA --> MCU
+  TCOND --> PWR
+  TPRESS --> PROT
+  PROT --> PWR
+  DISP <--> MCU
+  MCU <--> BUS
+  BUS <--> PWR
+  MCU --> FAN
+  PWR --> FC
+  PWR --> COMP
+  PWR --> VALV
+  MCU <--> WIFI
+
+  MCU -. leitura passiva .-> ISO
+  PWR -. leitura passiva isolada .-> ISO
+  PROT -. estado/falha .-> ISO
+  ISO --> EDGE
+  WIFI --> EDGE
+  EDGE --> DB
+  DB --> DASH
+  DB --> MAINT
+  DB --> ALERT
+
+  classDef safety fill:#ffe2e2,stroke:#a40000,color:#111;
+  classDef unknown fill:#fff3cd,stroke:#8a6d3b,color:#111;
+  class PROT safety;
+  class PWR,BUS,TPRESS unknown;
