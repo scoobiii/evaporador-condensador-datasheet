@@ -1,23 +1,26 @@
 # Evaporador–Condensador: datasheet reverso e telemetria
 
-Projeto de engenharia reversa controlada para documentar o conjunto split Midea identificado no álbum `GPA CD1 1965 RH`.
+Projeto de engenharia reversa controlada para documentar o conjunto split Springer Midea AirVolution identificado como **42AFVCI18S5 x 38TVCI18S5**, 18.000 BTU/h, 220 V, 60 Hz e R32, conforme identificação do projeto e fontes oficiais referenciadas.
 
 ## Objetivo
 
-Consolidar fotos, etiquetas, medições, diagrama lógico e requisitos para monitoramento Wi‑Fi de manutenção. O projeto separa evidências **confirmadas**, itens **prováveis**, **hipóteses** e pontos que **precisam ser medidos**.
+Consolidar fotos, documentação oficial, etiquetas, medições, diagrama lógico e requisitos para monitoramento Wi‑Fi de usuário e manutenção. O projeto separa evidências **confirmadas**, itens **prováveis**, **hipóteses** e pontos que **precisam ser medidos**.
 
 ## Estado atual
 
-As evidências disponíveis confirmam a presença de unidade evaporadora/condensadora Midea, placa de interface/display e módulo sem fio **EU‑SK105**, com registro Anatel visível **071398-21-05648**. A pinagem completa da placa de potência e o protocolo do barramento ainda não estão validados.
+As evidências confirmam a unidade evaporadora/condensadora Midea, a placa de interface/display e o módulo sem fio **EU‑SK105**, com registro Anatel visível **071398-21-05648**. A documentação oficial do produto e os manuais foram referenciados em `docs/05_DOCUMENTACAO_OFICIAL/`. A pinagem completa da placa de potência e o protocolo do barramento ainda não estão validados.
 
 | Entrega | Estado |
 |---|---|
 | Estrutura Git | Pronta |
 | Evidências fotográficas iniciais | Incluídas em `photos/` |
+| Documentação oficial | Referenciada e separada por finalidade |
+| Interfaces de usuário e manutenção | Especificadas em `docs/06_INTERFACES/` |
+| Inventário de conectores/chicotes | Template criado; IDs aguardam fotos e medições |
 | Diagrama lógico | Incluído em `docs/03_arquitetura_logica.mmd` |
 | Relatório técnico | Incluído em `docs/04_relatorio_tecnico.md` |
 | Pinagem validada | Pendente de fotos e medições |
-| Extração Wi‑Fi documentada | Arquitetura preliminar pronta; protocolo a confirmar |
+| Extração Wi‑Fi | Arquitetura somente leitura; protocolo a confirmar |
 
 ## Organização
 
@@ -27,8 +30,10 @@ As evidências disponíveis confirmam a presença de unidade evaporadora/condens
 - `docs/02_PLANO_FOTOS.md`: checklist de fotos e medições necessárias.
 - `docs/03_arquitetura_logica.mmd`: fonte editável do diagrama.
 - `docs/04_relatorio_tecnico.md`: data sheet e plano de telemetria.
-- `data/`: medições CSV, inventário e tabelas de pinagem.
-- `scripts/`: utilitários locais, sem acesso ativo à potência.
+- `docs/05_DOCUMENTACAO_OFICIAL/`: fontes oficiais de usuário, instalação, operação, manutenção e SmartHome.
+- `docs/06_INTERFACES/`: interfaces do usuário, manutenção, EU-SK105 e conectores/chicotes.
+- `docs/07_LINHA_DO_TEMPO.md`: sequência e estado das etapas.
+- `data/`: medições CSV e inventários.
 
 ## Próximo passo
 
