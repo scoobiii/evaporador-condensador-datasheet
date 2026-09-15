@@ -1,11 +1,20 @@
-# Prompt refinado de análise
+# Prompt mestre refinado — engenharia, telemetria e manutenção
 
-Analise todas as fotos e documentos do conjunto split Midea identificado como GPA CD1 1965 RH. Produza um data sheet reverso preliminar da evaporadora e da condensadora, separando rigorosamente fatos legíveis, inferências funcionais, hipóteses e itens que precisam ser medidos.
+Analise o conjunto Springer Midea AirVolution identificado como 42AFVCI18S5 x 38TVCI18S5, 18.000 BTU/h, 220 V, 60 Hz, R32 e módulo EU-SK105. Use as fotos, manuais oficiais e medições anexadas ao repositório.
 
-Identifique fabricante, modelo, códigos de placa, conectores, serigrafia, sensores, atuadores, barramento entre unidades, módulo Wi‑Fi e proteções. Não invente pinagem, tensão, corrente, pressão, protocolo ou limite de alarme.
+Separe todas as conclusões em quatro níveis: **CONFIRMADO** por foto ou fonte oficial; **PROVÁVEL** por coerência funcional; **HIPÓTESE** sem autorização para ligação; e **PRECISA MEDIR**.
 
-Monte um diagrama Mermaid da arquitetura da lógica com sensores de temperatura, pressão quando existente, proteções originais, MCU, placa de potência, compressor, ventiladores, válvula, interface/display, módulo Wi‑Fi e gateway de manutenção. Separe controle original de aquisição passiva.
+## Perguntas técnicas obrigatórias
 
-Documente a extração e o monitoramento via Wi‑Fi para o usuário e para a manutenção. Inclua modelo de dados com timestamp, unidade, origem e qualidade; MQTT sobre TLS ou API documentada; fila local durante perda de rede; histórico; dashboards; alertas; retenção; segurança; calibração; comissionamento; diagnóstico de sensores, ventiladores, compressor, tensão, temperatura, comunicação e códigos de falha.
+1. Quais sensores são visíveis, quais são esperados pelo manual e quais precisam ser adicionados externamente? Identifique ponto, tipo, unidade, frequência, calibração e risco.
+2. Qual é a lógica de monitoramento e qual é a lógica de controle original? Preserve o controle Midea e trate o novo sistema como observação passiva.
+3. Sem sensor de pressão, declare explicitamente que o superaquecimento e o sub-resfriamento termodinâmicos não podem ser calculados. Mostre as equações usando pressão–temperatura do R32 e diferencie cálculo real de indicador indireto.
+4. Investigue somente fontes oficiais Midea para developer portal, SDK, API, SmartHome, parceiros, OAuth, webhooks, escopos, suporte e acesso. Se não houver SDK público, registre a ausência e proponha solicitação formal à Midea. Não trate Home Assistant, ESPHome ou bibliotecas comunitárias como SDK oficial.
+5. Descreva quais painéis o SmartHome anuncia para usuário, alertas, monitoramento e energia, sem prometer recursos específicos do modelo que não estejam documentados.
+6. Compare app próprio para gestores/técnicos com gateway ESP32/Arduino. Recomende uma arquitetura híbrida: SmartHome oficial para usuário, gateway passivo e dashboard próprio para manutenção, salvo quando uma API oficial for concedida.
 
-Diferencie valores observados, derivados e estimados. Mantenha comandos remotos desabilitados por padrão e preserve todas as proteções originais. Escreva em português técnico, com tabelas, limitações, riscos elétricos e uma lista objetiva das próximas fotos e medições necessárias para converter o esquema preliminar em pinagem validada.
+## Entregáveis
+
+Produza: (a) data sheet; (b) diagrama Mermaid de sensores, proteção, controle e telemetria; (c) matriz de conectores/chicotes com foto, serigrafia, pinos, cores, destino, função, medição, fonte e confiança; (d) modelo de dados MQTT/TLS; (e) regras de alarmes e tendências; (f) dashboard para usuário, gestor e técnico; (g) backlog priorizado com critérios de aceite; (h) plano de comissionamento; e (i) lista das próximas evidências.
+
+Não invente pinagem, pressão, corrente, temperatura de descarga, API local, protocolo, limites de alarme ou causa raiz. Não implemente comando de escrita, acionamento de compressor, alteração de proteção, captura de credenciais pessoais ou engenharia reversa ativa sem documentação e autorização. Toda telemetria deve falhar para o estado seguro.
