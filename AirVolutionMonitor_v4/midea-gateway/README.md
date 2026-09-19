@@ -65,6 +65,14 @@ The maintained Midea LAN documentation exposes T1/T2/T3 and other AC
 entities when the device capability supports them. A device may not expose
 every field.
 
+## HVACLY export
+
+`GET /telemetry/hvacly` exposes the observed values as versioned HVACLY
+events. Each event includes `asset_id`, `node_id`, `sensor_id`, quantity,
+unit, measured/received timestamps, quality and source. The Android `/status`
+flow remains unchanged. Set `HVACLY_ASSET_ID` and `HVACLY_NODE_ID` in the
+environment when the default identifiers are not appropriate.
+
 ## Security
 
 Run this gateway on a trusted LAN only. Do not expose port 8000 to the

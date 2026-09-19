@@ -5,6 +5,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from midealocal.discover import discover
 from midealocal.devices import device_selector
+from hvacly_adapter import to_hvacly_events
 
 app = FastAPI(title="AirVolution Midea LAN Gateway", version="1.0")
 
@@ -22,6 +23,8 @@ class ConnectRequest(BaseModel):
 class Gateway:
     ac = None
     meta = {}
+    asset_id = os.getenv("HVACLY_ASSET_ID", "airvolution-42AFVCI18S5-38TVCI18S5")
+    node_id = os.getenv("HVACLY_NODE_ID", "midea-gateway-01")
 
 gateway = Gateway()
 
@@ -110,6 +113,22 @@ def status():
         return {"ok": True, "telemetry": normalize(attrs)}
     except Exception as e:
         raise HTTPException(502, f"status read failed: {e}")
+
+@app.get("/telemetry/hvacly")
+def hvacly_telemetry():
+    """Retorna eventos HVACLY com identidade, unidade, origem e timestamps."""
+    if gateway.ac is None:
+        raise HTTPException(409, "not connected")
+    try:
+        telemetry = normalize(dict(gateway.ac.attributes or {}))
+        return {
+            "schema_version": "1.0",
+            "asset_id": gateway.asset_id,
+            "node_id": gateway.node_id,
+            "events": to_hvacly_events(telemetry, gateway.asset_id, gateway.node_id),
+        }
+    except Exception as e:
+        raise HTTPException(502, f"HVACLY telemetry export failed: {e}")
 
 @app.get("/raw")
 def raw():
