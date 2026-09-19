@@ -1,0 +1,190 @@
+name: Sensor documentation CI
+
+
+
+on:
+
+  push:
+  
+    branches: [main]
+    
+    paths:
+    
+      - docs/**
+      
+      - scripts/validate_sensor_docs.py
+      
+      - .github/workflows/docs-sensors-ci.yml
+      
+  pull_request:
+  
+    paths:
+    
+      - docs/**
+      
+      - scripts/validate_sensor_docs.py
+      
+      - .github/workflows/docs-sensors-ci.yml
+      
+  workflow_dispatch:
+  
+
+
+permissions:
+
+  contents: read
+  
+
+
+concurrency:
+
+  group: sensor-docs-${{ github.workflow }}-${{ github.ref }}
+  
+  cancel-in-progress: true
+  
+
+
+jobs:
+
+  validate:
+  
+    name: Validate sensor documentation
+    
+    runs-on: ubuntu-latest
+    
+    timeout-minutes: 10
+    
+    steps:
+    
+      - name: Checkout repository
+      
+        uses: actions/checkout@v4
+        
+
+
+      - name: Set up Python
+      
+        uses: actions/setup-python@v5
+        
+        with:
+        
+          python-version: '3.12'
+          
+
+
+      - name: Validate Markdown and sensor consistency
+      
+        run: python scripts/validate_sensor_docs.py
+        
+
+
+      - name: Check validator source formatting
+      
+        shell: bash
+        
+        run: |
+        
+          if grep -n '[[:blank:]]$' scripts/validate_sensor_docs.py; then
+          
+            echo 'Trailing whitespace found in validator source.'
+            
+            exit 1
+            
+          fi
+          
+
+
+      - name: Check Markdown and Python files are UTF-8
+      
+        shell: bash
+        
+        run: |
+        
+          python - <<'PY'
+          
+          from pathlib import Path
+          
+          for path in list(Path('docs').rglob('*.md')) + list(Path('scripts').rglob('*.py')):
+          
+              path.read_text(encoding='utf-8')
+              
+              print(f'UTF-8 OK: {path}')
+              
+          PY
+          
+
+
+      - name: Publish validation summary
+      
+        if: always()
+        
+        run: |
+        
+          {
+          
+            echo '## Sensor documentation CI'
+            
+            echo ''
+            
+            echo '- Documentation files: 08, 09, 10 and 11'
+            
+            echo '- Normalized sensors: T1, T2 and T3 plus diagnostic channels'
+            
+            echo '- Safety policy: read-only integration and no undocumented pinout claims'
+            
+          } >> $GITHUB_STEP_SUMMARY
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
