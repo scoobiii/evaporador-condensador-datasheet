@@ -2,57 +2,45 @@
 
 
 
-## Objetivo
+## Identificação
 
 
 
-Esta nota consolida as fontes públicas localizadas para o conjunto Springer Midea AirVolution **42AFVCI18S5 × 38TVCI18S5**, incluindo o manual oficial, a página do produto, o manual do módulo EU-SK105 e alternativas de integração via Wi‑Fi.
+A [página oficial brasileira da Midea](https://www.midea.com.br/ar-condicionado-split-inverter-18000-btu-airvolution-frio-midea-3/p) identifica o conjunto 42AFVCI18S5 × 38TVCI18S5 como AirVolution, 18.000 BTU/h, 220 V, R32. O [manual oficial](https://conteudo.midea.com.br/manuais/ar-condicionado-split-inverter-18000-btu-airvolution-frio-midea.pdf) detalha `42` como evaporadora, `38` como condensadora, `V` inverter, `C` somente frio, `I` revisão R32, `18` 5,28 kW/18.000 BTU/h, `S` Springer Midea e `5` 220 V/1F/60 Hz.
 
 
 
-> **Regra de evidência:** uma API comunitária, uma fotografia de placa ou uma hipótese de protocolo não deve ser tratada como SDK oficial nem como confirmação de pinagem.
-> 
-
-
-## Identificação oficial
+A página oficial informa simultaneamente “Produto conectado: Sim” e “Não possui compatibilidade com o Kit Wi‑Fi Springer Midea”. Essa inconsistência exige confirmação da variante, módulo e firmware instalados; não assumir que todo EU-SK105 seja compatível.
 
 
 
-A [página brasileira da Midea](https://www.midea.com.br/ar-condicionado-split-inverter-18000-btu-airvolution-frio-midea-3/p) identifica o conjunto como 18.000 BTU/h, 220 V, R32 e 42AFVCI18S5x38TVCI18S5. O [manual oficial](https://conteudo.midea.com.br/manuais/ar-condicionado-split-inverter-18000-btu-airvolution-frio-midea.pdf) detalha a nomenclatura: `42` evaporadora, `38` condensadora, `V` inverter, `C` somente frio, `I` revisão R32, `18` 5,28 kW/18.000 BTU/h, `S` Springer Midea e `5` 220 V/1F/60 Hz.
+## Sensores e diagnósticos documentados
 
 
 
-A página oficial contém uma inconsistência que deve ser resolvida antes da integração: informa **“Produto conectado: Sim”**, mas também **“Não possui compatibilidade com o Kit Wi‑Fi Springer Midea”**. O manual oficial descreve SmartHome e modo AP, mas não comprova que todo módulo EU-SK105 seja compatível com esta revisão.
+| Sensor/função | Evidência no manual | Estado de integração |
+
+|---|---|---|
+
+| `T1` — temperatura ambiente | `E4`: aberto ou curto | Documentado; localizar termistor e curva. |
+
+| `T2` — serpentina evaporadora | `E5`: aberto ou curto | Documentado; confirmar posição e chicote. |
+
+| `T3` — serpentina condensadora | `F2`: aberto ou curto | Documentado; confirmar posição e chicote. |
+
+| Tensão | `E2`: erro de sinal | Diagnóstico, não canal Wi‑Fi confirmado. |
+
+| Ventilador interno | `E3`: velocidade fora de controle | Diagnóstico, sinal não publicado. |
+
+| Ventilador externo | `F5`: velocidade fora de controle | Diagnóstico, sinal não publicado. |
+
+| Alta pressão | `p6`: proteção | Não confirma transdutor acessível. |
+
+| Perda de refrigerante | `EC`: detecção | Não substitui medição frigorífica. |
 
 
 
-## Sensores documentados no manual
-
-
-
-| Identificador | Grandeza/função | Evidência | Estado |
-
-|---|---|---|---|
-
-| `T1` | Temperatura ambiente da unidade interna | `E4`: T1 aberto ou em curto | Documentado; confirmar componente físico e curva. |
-
-| `T2` | Temperatura da serpentina evaporadora | `E5`: T2 aberto ou em curto | Documentado; confirmar posição, chicote e resistência. |
-
-| `T3` | Temperatura da serpentina condensadora | `F2`: T3 aberto ou em curto | Documentado; confirmar posição, chicote e acesso. |
-
-| — | Sinal de tensão | `E2` | Diagnóstico documentado; não é canal Wi‑Fi confirmado. |
-
-| — | Ventilador evaporadora | `E3` | Falha de velocidade documentada; sinal não exposto. |
-
-| — | Ventilador condensadora | `F5` | Falha de velocidade documentada; sinal não exposto. |
-
-| — | Alta pressão | `p6` | Proteção documentada; não confirma transdutor acessível. |
-
-| — | Perda de refrigerante | `EC` | Diagnóstico documentado; não substitui medição frigorífica. |
-
-
-
-Também são relevantes `E1` (comunicação interna/externa), `E7` (display/placa principal) e `E0` (processador/EEPROM). O texto do manual deve ser preservado como diagnóstico; não se deve inferir causa adicional.
+`E1` indica comunicação entre unidades; `E7`, comunicação display/placa principal; `E0`, erro de processador/EEPROM. Códigos de erro não autorizam inferir causas além do manual nem provam exportação via Wi‑Fi.
 
 
 
@@ -60,48 +48,76 @@ Também são relevantes `E1` (comunicação interna/externa), `E7` (display/plac
 
 
 
-| Componente | Estado | Observação |
+| Componente | Estado | Pendência |
 
 |---|---|---|
 
-| Evaporadora 42AFVCI18S5 | Confirmado | Unidade interna, T1/T2, display e interface local. |
+| Evaporadora 42AFVCI18S5 | Confirmado | Etiqueta, série e revisão. |
 
-| Condensadora 38TVCI18S5 | Confirmado | Unidade externa, T3, compressor, ventilador e proteção. |
+| Condensadora 38TVCI18S5 | Confirmado | Etiqueta, série e revisão. |
 
-| Placa principal e placa do display | Documentadas funcionalmente | `E7` confirma uma relação de comunicação; pinagem não publicada. |
+| Placa principal/display | Documentado funcionalmente | Part number, revisão e pinagem. |
 
-| Placa inverter | Indicada comercialmente | Confirmar revisão e part number na unidade. |
+| Placa inverter | A validar | Confirmar existência e etiqueta. |
 
-| Serpentina de cobre/Gold Fin | Especificação oficial | Registrar condição física e manutenção. |
+| EU-SK105 | Identificado; compatibilidade a validar | Conector, alimentação e firmware. |
 
-| Módulo Wi‑Fi EU-SK105 | Identificado no projeto; compatibilidade a validar | Registrar etiqueta, conector e firmware. |
-
-| Barramento interno | Não validado | Não conectar gateway nem injetar comandos. |
+| Barramento interno | Não disponível | Não conectar gateway nem injetar comandos. |
 
 
 
-## Datasheet do EU-SK105
+## EU-SK105
 
 
 
-O [manual genérico do Smart Kit EU-SK105/US-SK105](https://konstruktor-pt-cdn.s3.amazonaws.com/sap/entry_04011/Cooling%20Heating%20Portables%20SK105%20WiFi_User%20manual_ENG.pdf) informa: antena impressa em PCB; 2.400–2.483,5 MHz; 0–45 °C; umidade 10–85%; entrada DC 5 V/300 mA; potência máxima <20 dBm; configuração pelo MSmartHome/SmartHome; Wi‑Fi 2,4 GHz; e janela aproximada de 8 minutos para provisionamento.
+O [manual genérico do Smart Kit EU-SK105/US-SK105](https://konstruktor-pt-cdn.s3.amazonaws.com/sap/entry_04011/Cooling%20Heating%20Portables%20SK105%20WiFi_User%20manual_ENG.pdf) informa antena PCB, 2.400–2.483,5 MHz, 0–45 °C, umidade 10–85%, entrada DC 5 V/300 mA, potência máxima menor que 20 dBm, Wi‑Fi 2,4 GHz e configuração por SmartHome. O manual brasileiro descreve sete pressões na tecla LED até `AP` e provisionamento dentro da janela indicada. Isso é configuração, não contrato de telemetria.
 
 
 
-Esses valores são do manual genérico e não confirmam a compatibilidade elétrica, o firmware ou a exposição dos sensores desta unidade. O modo oficial de configuração descrito no manual brasileiro usa sete pressões na tecla `LED` até o display apresentar `AP`; isso é provisionamento, não uma especificação de telemetria.
+## API e SDK
 
 
 
-## APIs e SDKs localizados
+Não foi localizado SDK público oficial Midea com endpoints, autenticação, leitura T1/T2/T3 ou acesso direto ao EU-SK105 para este modelo. A [página oficial SmartHome](https://www.midea.com/global/smarthome) descreve o aplicativo e o ecossistema, mas não publica neste material um contrato de API. Solicitar à Midea/assistência autorizada API de parceiro, escopos de leitura, tokens, códigos de falha e suporte ao modelo exato.
 
 
 
-### API/SDK oficial
+O projeto comunitário [midea_ac_lan](https://github.com/wuwentao/midea_ac_lan) usa conta pessoal Meiju/SmartHome e Token/Key para integração local, alerta que esses serviços podem ser encerrados e não é SDK oficial. Usar somente em laboratório isolado, sem armazenar credenciais no repositório. O pacote [midea-python-client](https://pypi.org/project/midea-python-client/) é para o desumidificador EVA II PRO, não para este split.
 
 
 
-Não foi localizado um SDK público oficial que documente endpoints, autenticação, escopos, leitura de T1/T2/T3 ou acesso direto ao EU-SK105 para este modelo. A [página oficial Midea SmartHome](https://www.midea.com/global/smarthome) descreve o aplicativo, monitoramento e ecossistema, mas não publica neste material um contrato de API para desenvolvedores.
+## Estratégia recomendada
 
 
 
-Solicitar formal
+1. Priorizar API/SDK oficial autorizado.
+2. 
+2. Registrar exportações do SmartHome com origem, timestamp e firmware.
+3. 
+3. Usar integração comunitária apenas em protótipo isolado.
+4. 
+4. Usar sensores externos HVACLY para temperatura, corrente, tensão e pressão sem alterar o controlador Midea.
+5. 
+5. Bloquear engenharia reversa ativa até existir autorização, isolamento e procedimento formal.
+6. 
+
+
+Uma leitura genérica do aplicativo não deve ser chamada `T1`, `T2` ou `T3` sem correspondência documental.
+
+
+
+## Referências internas
+
+
+
+- [`08_SENSORES_E_LOGICA.md`](./08_SENSORES_E_LOGICA.md)
+- 
+- [`09_SENSORES_COMPONENTES_MIDEA.md`](./09_SENSORES_COMPONENTES_MIDEA.md)
+- 
+
+
+
+
+
+
+
